@@ -3,3 +3,10 @@
 * {
   font-family: "Titillium Web", sans-serif;
 }
+
+
+.movie-poster {
+    height: 250px;
+    object-fit: cover;
+    width: 100%;
+}
