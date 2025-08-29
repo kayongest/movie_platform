@@ -1,4 +1,4 @@
-# 🎬 Movie DB - React Movie Database
+# Movie DB - React Movie Database
 
 This is a modern, responsive movie database web application built with React.
 It allows users to browse and search for movies using the OMDB API.
@@ -20,7 +20,34 @@ It allows users to browse and search for movies using the OMDB API.
 
 ### Installation
 
-1. Clone the repository:
+## Clone the repository:
 ```bash
 git clone <your-repo-url>
 cd movie_db
+
+## Installing dependencies
+npm install
+
+## Installing required packages:
+npm install axios react-slick slick-carousel bootstrap
+
+## Starting the development server
+npm start
+
+
+## Movie_DB Project Structure
+
+movie_db/
+├── src/
+│   ├── components/
+│   │   ├── Navbar.js          # Has the Navigation with search functionality
+│   │   ├── Bodycontent.js     # Has the Main content with movie grid
+│   │   ├── MovieCard.js       # Contains an Individual movie card component
+│   │   ├── CardSlider.js      # This contains Movie carousel/slider
+│   │   └── Footer.js          # This is the Footer component
+│   ├── assets/
+│   │   └── bg.png            # A default background image
+│   └── App.js                # Main application component
+├── public/
+└── package.json
+
