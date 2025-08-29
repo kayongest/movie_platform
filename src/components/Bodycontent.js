@@ -46,7 +46,7 @@ export function Bodycontent() {
       </div>
       
       <div className="container mt-5 bg-dark text-white fs-3 p-3 rounded">
-        <h2>Movies ({movieData.length})</h2>
+        <h2>Movies {movieData.length}</h2>
       </div>
 
       <div className="container mt-4">

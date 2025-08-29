@@ -32,7 +32,7 @@ export default function CardSlider() {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 800,
+    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
@@ -65,7 +65,7 @@ export default function CardSlider() {
                 src={movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/800x500/333/fff?text=No+Image'}
                 alt={movie.Title}
                 className="w-100 h-100"
-                style={{ objectFit: "cover"}}
+                style={{ objectFit: "cover", height: "50px" }}
               />
               <div
                 className="position-absolute bottom-0 start-0 end-0 text-white p-4"

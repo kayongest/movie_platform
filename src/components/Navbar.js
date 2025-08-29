@@ -1,13 +1,51 @@
-export function Navbar() {
+import { useState } from "react";
+import axios from "axios";
+
+export function Navbar({ onSearchResults }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const apikey = "7ab644ee";
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    
+    if (!searchTerm.trim()) return;
+
+    setIsLoading(true);
+    
+    try {
+      const response = await axios.get(
+        `https://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${apikey}`
+      );
+      
+      if (response.data.Search) {
+        onSearchResults(response.data.Search);
+      } else {
+        onSearchResults([]);
+        // Optional: Show message for no results
+        console.log("No movies found");
+      }
+    } catch (error) {
+      console.error("Search error:", error);
+      onSearchResults([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand ms-3 ms-md-5 text-white" href="#">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div className="container-fluid">
+        <a className="navbar-brand ms-3 ms-md-5 text-success fw-bold" href="#">
           Movie DB
         </a>
 
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -15,38 +53,34 @@ export function Navbar() {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
-                Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Movies
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Series
-              </a>
-            </li>
-          </ul>
-
-          <form class="d-flex ms-auto">
-            <div class="input-group">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <form className="d-flex ms-auto" onSubmit={handleSearch}>
+            <div className="input-group">
               <input
-                class="form-control me-2"
+                className="form-control me-2"
                 type="search"
                 placeholder="Search movies..."
                 aria-label="Search"
+                value={searchTerm}
+                onChange={handleInputChange}
+                disabled={isLoading}
               />
-              <button class="btn btn-outline-success" type="submit">
-                Search
+              <button 
+                className="btn btn-success" 
+                type="submit"
+                disabled={isLoading || !searchTerm.trim()}
+              >
+                {isLoading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Searching...
+                  </>
+                ) : (
+                  "Search"
+                )}
               </button>
             </div>
           </form>
