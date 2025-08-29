@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Navbar } from "./Navbar";
 import CardSlider from "./CardSlider";
 import { MovieCard } from "./MovieCard";
 import axios from "axios";
@@ -11,15 +12,12 @@ export function Bodycontent() {
 
   useEffect(() => {
     const fetchMovieData = async () => {
-      console.log("loading data");
-
       try {
         setLoading(true);
         const response = await axios.get(
           `https://www.omdbapi.com/?s=action&apikey=${apikey}`
         );
         if (response.data.Search) {
-          console.log("Movie data:", response.data.Search);
           setMovieData(response.data.Search);
         } else {
           setMovieData([]);
@@ -36,17 +34,21 @@ export function Bodycontent() {
     fetchMovieData();
   }, []);
 
-  if (loading) return <div className="text-center py-5">Loading movie data...</div>;
-  if (error) return <div className="text-center py-5">Error loading movies: {error.message}</div>;
+  // Handle search results from navbar
+  const handleSearchResults = (results) => {
+    setMovieData(results);
+  };
 
   return (
     <div>
-      <div className="container-fluid p-2">
+      <Navbar onSearchResults={handleSearchResults} />
+      
+      <div className="container-fluid">
         <CardSlider />
       </div>
       
-      <div className="container mt-5 bg-dark text-white fs-3 p-3 rounded">
-        <h2>Movies {movieData.length}</h2>
+      <div className="container mt-5 bg-dark text-white fs-3 p-3">
+        <h2>Movies {movieData.length > 0 && `(${movieData.length})`}</h2>
       </div>
 
       <div className="container mt-4">
@@ -63,8 +65,14 @@ export function Bodycontent() {
               />
             ))
           ) : (
-            <div className="col-6 text-center py-5">
-              <p>Sorry, no movies to show</p>
+            <div className="col-12 text-center py-5">
+              {loading ? (
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              ) : (
+                <p>No movies found. Try searching for something else!</p>
+              )}
             </div>
           )}
         </div>

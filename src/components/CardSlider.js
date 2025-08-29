@@ -53,13 +53,13 @@ export default function CardSlider() {
   }
 
   return (
-    <div className="container-fluid px-0">
+    <div className="container-fluid pt-2">
       <Slider {...settings}>
         {movies.map((movie) => (
           <div key={movie.imdbID} className="slider-item">
             <div
               className="position-relative"
-              style={{ height: "300px", overflow: "hidden" }}
+              style={{ height: "250px", overflow: "hidden" }}
             >
               <img
                 src={movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/800x500/333/fff?text=No+Image'}

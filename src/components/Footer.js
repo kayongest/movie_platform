@@ -3,7 +3,12 @@ export function Footer() {
     <div>
       <nav class="navbar navbar-light bg-light" id="footer">
         <a class="navbar-brand ms-5" href="#">
-          Footer
+          <a
+            className="navbar-brand ms-3 ms-md-5 text-success fw-bold"
+            href="#"
+          >
+            Movie DB
+          </a>
         </a>
       </nav>
     </div>
