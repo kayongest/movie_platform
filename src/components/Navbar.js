@@ -1,7 +1,7 @@
 export function Navbar() {
   return (
-    <div class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand ms-5" href="#">
+    <div class="navbar navbar-expand-lg navbar-light bg-dark">
+      <a class="navbar-brand ms-5 text-white" href="#">
         Movie DB
       </a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">

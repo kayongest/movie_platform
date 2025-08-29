@@ -41,7 +41,7 @@ export function Bodycontent() {
 
   return (
     <div>
-      <div className="container-fluid">
+      <div className="container-fluid p-2">
         <CardSlider />
       </div>
       
