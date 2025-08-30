@@ -18,7 +18,11 @@ export function Bodycontent() {
           `https://www.omdbapi.com/?s=action&apikey=${apikey}`
         );
         if (response.data.Search) {
-          setMovieData(response.data.Search);
+          // Sorting movies by year (newest first)
+          const sortedMovies = response.data.Search.sort((a, b) => {
+            return parseInt(b.Year) - parseInt(a.Year);
+          });
+          setMovieData(sortedMovies);
         } else {
           setMovieData([]);
         }

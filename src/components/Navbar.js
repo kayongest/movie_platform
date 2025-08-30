@@ -8,21 +8,22 @@ export function Navbar({ onSearchResults }) {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    
+
     if (!searchTerm.trim()) return;
 
     setIsLoading(true);
-    
+
     try {
       const response = await axios.get(
-        `https://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${apikey}`
+        `https://www.omdbapi.com/?s=${encodeURIComponent(
+          searchTerm
+        )}&apikey=${apikey}`
       );
-      
+
       if (response.data.Search) {
         onSearchResults(response.data.Search);
       } else {
         onSearchResults([]);
-        // Optional: Show message for no results
         console.log("No movies found");
       }
     } catch (error) {
@@ -44,23 +45,28 @@ export function Navbar({ onSearchResults }) {
           Movie DB
         </a>
 
+        {/* Toggler button - make sure it matches the target ID */}
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
+          data-bs-target="#navbarSearch" // Changed to match the ID below
+          aria-controls="navbarSearch"
           aria-expanded="false"
-          aria-label="Toggle navigation"
+          aria-label="Toggle search"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <form className="d-flex ms-auto" onSubmit={handleSearch}>
+        {/* Collapsible content */}
+        <div className="collapse navbar-collapse" id="navbarSearch">
+          <form
+            className="d-flex ms-lg-auto mt-3 mt-lg-0"
+            onSubmit={handleSearch}
+          >
             <div className="input-group">
               <input
-                className="form-control me-2"
+                className="form-control"
                 type="search"
                 placeholder="Search movies..."
                 aria-label="Search"
@@ -68,19 +74,12 @@ export function Navbar({ onSearchResults }) {
                 onChange={handleInputChange}
                 disabled={isLoading}
               />
-              <button 
-                className="btn btn-success" 
+              <button
+                className="btn btn-success"
                 type="submit"
                 disabled={isLoading || !searchTerm.trim()}
               >
-                {isLoading ? (
-                  <>
-                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    Searching...
-                  </>
-                ) : (
-                  "Search"
-                )}
+                {isLoading ? "..." : "Search"}
               </button>
             </div>
           </form>

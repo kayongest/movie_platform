@@ -20,7 +20,7 @@ export function MovieCard({ Title, Year, Poster, Type, imdbID }) {
           <div className="mt-auto">
             <a
               href={`https://www.imdb.com/title/${imdbID}`}
-              className="btn btn-primary btn-sm"
+              className="btn btn-outline-success btn-sm"
               target="_blank"
               rel="noopener noreferrer"
             >
