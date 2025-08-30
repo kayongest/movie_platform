@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import { Navbar } from "./Navbar";
 import CardSlider from "./CardSlider";
 import { MovieCard } from "./MovieCard";
+import { Pagination } from "./Pagination";
 import axios from "axios";
 
 export function Bodycontent() {
   const [movieData, setMovieData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [moviesPerPage] = useState(4); // 4 cards per page
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const apikey = "7ab644ee";
@@ -18,11 +21,7 @@ export function Bodycontent() {
           `https://www.omdbapi.com/?s=action&apikey=${apikey}`
         );
         if (response.data.Search) {
-          // Sorting movies by year (newest first)
-          const sortedMovies = response.data.Search.sort((a, b) => {
-            return parseInt(b.Year) - parseInt(a.Year);
-          });
-          setMovieData(sortedMovies);
+          setMovieData(response.data.Search);
         } else {
           setMovieData([]);
         }
@@ -41,25 +40,54 @@ export function Bodycontent() {
   // Handle search results from navbar
   const handleSearchResults = (results) => {
     setMovieData(results);
+    setCurrentPage(1); // Reset to first page on new search
+  };
+
+  // Get current movies for the current page
+  const indexOfLastMovie = currentPage * moviesPerPage;
+  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+  const currentMovies = movieData.slice(indexOfFirstMovie, indexOfLastMovie);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(movieData.length / moviesPerPage);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Next page
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Previous page
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   return (
     <div>
       <Navbar onSearchResults={handleSearchResults} />
-      
+
       <div className="container-fluid">
         <CardSlider />
       </div>
-      
-      <div className="container mt-5 bg-dark text-white fs-3 p-3">
-        <h2>Movies {movieData.length > 0 && `(${movieData.length})`}</h2>
+
+      <div className="container mt-5 bg-dark text-white fs-3 p-3 rounded">
+        <h2>Movies ({movieData.length})</h2>
+        <small className="fs-6 text-muted">
+          Page {currentPage} of {totalPages} | Showing {currentMovies.length} of {movieData.length} movies
+        </small>
       </div>
 
       <div className="container mt-4">
         <div className="row">
-          {movieData.length > 0 ? (
-            movieData.map((movie) => (
-              <MovieCard 
+          {currentMovies.length > 0 ? (
+            currentMovies.map((movie) => (
+              <MovieCard
                 key={movie.imdbID}
                 Title={movie.Title}
                 Year={movie.Year}
@@ -80,6 +108,21 @@ export function Bodycontent() {
             </div>
           )}
         </div>
+        
+        {/* Pagination - Only show if there are multiple pages */}
+        {totalPages > 1 && (
+          <div className="row mt-4">
+            <div className="col-12">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                paginate={paginate}
+                prevPage={prevPage}
+                nextPage={nextPage}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
