@@ -76,10 +76,15 @@ export function Bodycontent() {
         <CardSlider />
       </div>
 
-      <div className="container mt-5 bg-dark text-white fs-3 p-3 rounded">
+      <div className="container mt-5 bg-dark text-white fs-5 p-3 rounded">
         <h2>Movies ({movieData.length})</h2>
-        <small className="fs-6 text-muted">
-          Page {currentPage} of {totalPages} | Showing {currentMovies.length} of {movieData.length} movies
+      </div>
+      <div className="container mt-2">
+        {" "}
+        {/* Separated container for page info */}
+        <small className="fs-6 text-dark">
+          Page {currentPage} of {totalPages} | Showing {currentMovies.length} of{" "}
+          {movieData.length} movies
         </small>
       </div>
 
@@ -108,7 +113,7 @@ export function Bodycontent() {
             </div>
           )}
         </div>
-        
+
         {/* Pagination - Only show if there are multiple pages */}
         {totalPages > 1 && (
           <div className="row mt-4">
